@@ -38,7 +38,7 @@ def print_result(name, words_count):
     print('{}: {}\n'.format(name, words_str))
 
 def main():
-    news_path = u'E:\\Python\\issue_2.2\\news\\Python_course\\PY1_Lesson_2.3'
+    news_path = u'news'
     word_len = 6
     n_top_count = 10
     names = get_files_gener(news_path, 'json')
