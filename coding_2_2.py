@@ -3,6 +3,7 @@
 import os
 import chardet
 import json
+import collections
 
 
 def get_files_gener(dir_name, extention):
@@ -19,17 +20,12 @@ def read_file(name):
 
 def get_news_from_text_json(data):
     data_json = json.loads(data)['rss']['channel']['items']
-    news_data = ''
-    for item in data_json:
-        news_data += '{} {} '.format(item['title'], item['description'])
+    news_data = ' '.join('{} {} '.format(item['title'], item['description']) for item in data_json)
     return news_data
 
 def count_top_n_words(data, word_len, n_top_count):
-    words = data.split(' ')
-    words_set = set(words)
-    words_count = [(word, words.count(word)) for word in words_set if len(word) > word_len]
-    words_count.sort(key=lambda x: x[1])
-    return words_count[-n_top_count:]
+    words = collections.Counter(word for word in data.split(' ') if len(word) > word_len)
+    return words.most_common(n_top_count)
 
 def print_result(name, words_count):
     words = [word for word, count in words_count]
